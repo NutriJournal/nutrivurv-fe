@@ -1,10 +1,10 @@
-import fetch from "isomorphic-unfetch";
+import fetch from 'isomorphic-unfetch';
 
-import "../styles/styles.css";
-import { AuthProvider } from "../components/AuthProvider";
+import '../styles/styles.css';
+import { AuthProvider } from '../components/AuthProvider';
 
 // this is to wake the server up as soon as the app loads
-fetch(`${process.env.GRAPHQL_ENDPOINT}`);
+// fetch(`${process.env.GRAPHQL_ENDPOINT}`);
 
 function MyApp({ Component, pageProps }) {
   return (
