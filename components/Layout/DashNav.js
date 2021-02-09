@@ -1,14 +1,14 @@
-import { useQuery } from "@apollo/react-hooks";
-import { ME } from "../../gql/queries";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useQuery } from '@apollo/react-hooks';
+import { ME } from '../../gql/queries';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export default function DashNav() {
   //Gets active dashboard component from client cache
   const { data, client } = useQuery(ME);
   const router = useRouter();
 
-  const currPage = router.pathname.split("/")[1];
+  const currPage = router.pathname.split('/')[1];
 
   useEffect(() => {
     // Write default values to local state in the cache
@@ -16,10 +16,10 @@ export default function DashNav() {
       data: {
         ...data,
         lowerNav: currPage,
-        journalComponent: "log",
-        logType: "daily",
-        mealType: "breakfast",
-        activeCat: "featured",
+        journalComponent: 'log',
+        logType: 'daily',
+        mealType: 'breakfast',
+        activeCat: 'featured',
       },
     });
     return () => null;
@@ -27,49 +27,52 @@ export default function DashNav() {
 
   if (!data) return <div className="w-1/3"></div>;
 
-  const { me, lowerNav } = data;
+  const { user, lowerNav } = data;
 
-  const activeNavControl = lowerNav ? lowerNav : "journal";
-  const user = me ? me.name : "user";
+  const currUser = user[0];
+  const activeNavControl = lowerNav ? lowerNav : 'journal';
+  const userName = currUser ? currUser.name : 'user';
 
   return (
     <ul className="w-1/3 flex justify-around text-lg font-medium py-2">
       <li
         className={`${
-          activeNavControl === "journal" ? "border-b-4 border-blue-400" : ""
+          activeNavControl === 'journal' ? 'border-b-4 border-blue-400' : ''
         } cursor-pointer`}
-        value={"journal"}
+        value={'journal'}
         onClick={() => {
           client.writeData({
-            data: { ...data, lowerNav: "journal", id: me.id },
+            data: { ...data, lowerNav: 'journal', id: currUser.id },
           });
-          router.push("/journal/[user]", `/journal/${user}`);
+          router.push('/journal/[user]', `/journal/${userName}`);
         }}
       >
         Food Journal
       </li>
       <li
         className={`${
-          activeNavControl === "progress" ? "border-b-4 border-blue-400" : ""
+          activeNavControl === 'progress' ? 'border-b-4 border-blue-400' : ''
         } cursor-pointer`}
-        value={"progress"}
+        value={'progress'}
         onClick={() => {
           client.writeData({
-            data: { ...data, lowerNav: "progress", id: me.id },
+            data: { ...data, lowerNav: 'progress', id: currUser.id },
           });
-          router.push("/progress/[user]", `/progress/${user}`);
+          router.push('/progress/[user]', `/progress/${userName}`);
         }}
       >
         Progress
       </li>
       <li
         className={`${
-          activeNavControl === "forum" ? "border-b-4 border-blue-400" : ""
+          activeNavControl === 'forum' ? 'border-b-4 border-blue-400' : ''
         } cursor-pointer`}
-        value={"forums"}
+        value={'forums'}
         onClick={() => {
-          client.writeData({ data: { ...data, lowerNav: "forum", id: me.id } });
-          router.push("/forum/posts");
+          client.writeData({
+            data: { ...data, lowerNav: 'forum', id: currUser.id },
+          });
+          router.push('/forum/posts');
         }}
       >
         Forums

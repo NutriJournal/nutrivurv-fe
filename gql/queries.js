@@ -20,12 +20,21 @@ export const GET_ALL_USERS = gql`
   }
 `;
 
+export const DASH_ME = gql`
+  query dashMe {
+    user {
+      id
+      name
+    }
+    lowerNav @client
+  }
+`;
+
 export const ME = gql`
   query me {
     user {
       id
       name
-      email
       profile {
         id
         age
@@ -40,14 +49,12 @@ export const ME = gql`
         protein
         calories
       }
-      weightLog {
-        current_weight
-        id
-      }
     }
-    myWeightLogCount
-    myDailyRecordCount
-    myDailyRecords(orderBy: date_DESC) {
+    weight_log {
+      current_weight
+      id
+    }
+    daily_record(order_by: { date: desc }) {
       id
       date
       fat
@@ -115,7 +122,10 @@ export const GET_FOOD_LOG = gql`
       food_string
       meal_type
     }
-    myWeightLogCount
+    weight_log {
+      id
+      current_weight
+    }
   }
 `;
 
@@ -139,7 +149,10 @@ export const GET_DOUGHNUT_DATA = gql`
       food_string
       meal_type
     }
-    myWeightLogCount
+    weight_log {
+      id
+      current_weight
+    }
   }
 `;
 

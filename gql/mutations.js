@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const LOG_IN = `
   mutation LogIn($email: String!, $password: String!) {
@@ -106,30 +106,34 @@ export const ADD_FOOD = gql`
     $food_string: String!
     $meal_type: String!
     $quantity: Int!
+    $user_id: String!
   ) {
-    createDailyRecord(
-      data: {
-        date: $date
+    insert_daily_record(
+      objects: {
         calories: $calories
-        fat: $fat
         carbs: $carbs
+        date: $date
+        fat: $fat
         fiber: $fiber
-        protein: $protein
         food_string: $food_string
         meal_type: $meal_type
+        protein: $protein
         quantity: $quantity
+        user_id: $user_id
       }
     ) {
-      date
-      calories
-      fat
-      carbs
-      fiber
-      protein
-      food_string
-      meal_type
-      quantity
-      createdAt
+      returning {
+        date
+        calories
+        fat
+        carbs
+        fiber
+        protein
+        food_string
+        meal_type
+        quantity
+        created_at
+      }
     }
   }
 `;
