@@ -1,17 +1,19 @@
-import { useState } from "react";
-import { useMutation } from "@apollo/react-hooks";
+import { useState } from 'react';
+import { useMutation } from '@apollo/react-hooks';
 
-import { ADD_FOOD } from "../../gql/mutations";
-import { adjustIntValuesonAnObject } from "../../lib/utils";
-import { GET_DOUGHNUT_DATA } from "../../gql/queries";
+import { ADD_FOOD } from '../../gql/mutations';
+import { adjustIntValuesonAnObject } from '../../lib/utils';
+import { GET_DOUGHNUT_DATA } from '../../gql/queries';
+import { useFetchUser } from '../../lib/Auth0/user';
 
 export default function NutritionFacts({
   nutrition: { info, label, meal_type },
 }) {
   //  Qty value used to get final values
-  const [qty, setQty] = useState(1); 
+  const [qty, setQty] = useState(1);
   //  No of servings entered into the nutrition display, default value of 1
-  const [enteredQty, setEnteredQty] = useState(1); 
+  const [enteredQty, setEnteredQty] = useState(1);
+  const { user } = useFetchUser();
 
   const {
     //  Destructure info for access to properties we're loading into foodLogData
@@ -25,8 +27,8 @@ export default function NutritionFacts({
     ingredients: [{ parsed }],
   } = info;
 
-  //  add favorite and logged qty properties to food_string 
-  const foodString = { ...parsed[0], favorite: false, loggedQty: enteredQty }; 
+  //  add favorite and logged qty properties to food_string
+  const foodString = { ...parsed[0], favorite: false, loggedQty: enteredQty };
 
   const foodLogData = {
     //Obj for storing the vales used in the nutrition graphic and the dailyRecord mutation
@@ -39,7 +41,8 @@ export default function NutritionFacts({
       protein: Math.floor(proteinQuantity * qty) || 0,
       food_string: JSON.stringify(foodString),
       meal_type: meal_type,
-      quantity: parseInt(enteredQty)
+      quantity: parseInt(enteredQty),
+      user_id: user.sub,
     },
     graphicData: info,
   };
@@ -54,20 +57,20 @@ export default function NutritionFacts({
   } = foodLogData.graphicData;
 
   // Name of food item
-  const name = ingredients[0].parsed[0].food; 
+  const name = ingredients[0].parsed[0].food;
   // Array of returned nutrients for creating nutrition lable
-  const nutrients = Object.keys(totalNutrients).splice(1); 
+  const nutrients = Object.keys(totalNutrients).splice(1);
   // Weight of a single serving
-  const servingSize = Math.floor(totalWeight / itemYield); 
+  const servingSize = Math.floor(totalWeight / itemYield);
 
   //  Programatically grab our return nutrients and create items for display in the Nutrition Label
   const nutrientList = nutrients.map((nutrient) => {
     // Macros
-    const nutrientTotals = totalNutrients; 
+    const nutrientTotals = totalNutrients;
     //  Percent daily values
-    const dailyTotals = totalDaily; 
+    const dailyTotals = totalDaily;
     //  Macro name
-    const label = nutrientTotals[nutrient].label; 
+    const label = nutrientTotals[nutrient].label;
 
     const nutrientQuantity = Math.floor(
       //  Total per selected serving
@@ -75,28 +78,28 @@ export default function NutritionFacts({
     );
 
     //  Unit for serving total
-    const nutrientUnit = nutrientTotals[nutrient].unit; 
+    const nutrientUnit = nutrientTotals[nutrient].unit;
 
     //  Qty for the % daily value
-    const totalQuantity = dailyTotals[nutrient] 
+    const totalQuantity = dailyTotals[nutrient]
       ? Math.floor(dailyTotals[nutrient].quantity * qty)
-      : "";
+      : '';
 
-      //  Unit for the % daily value
-    const totalUnit = dailyTotals[nutrient] 
+    //  Unit for the % daily value
+    const totalUnit = dailyTotals[nutrient]
       ? dailyTotals[nutrient].unit
-      : "N/A";
+      : 'N/A';
 
     return (
       <div
-        className={`flex ${nutrientQuantity === 0 ? "hidden" : ""}`}
+        className={`flex ${nutrientQuantity === 0 ? 'hidden' : ''}`}
         key={label}
       >
         <p className="">{label}</p>
         <p className="flex-1"></p>
         <p className="mx-3">{`${nutrientQuantity} ${nutrientUnit}`}</p>
         <p
-          className={`${totalQuantity < 10 ? "ml-2" : ""}`}
+          className={`${totalQuantity < 10 ? 'ml-2' : ''}`}
         >{`${totalQuantity} ${totalUnit}`}</p>
       </div>
     );
@@ -112,9 +115,11 @@ export default function NutritionFacts({
     //  CB that runs mutation in handleSubmit
     const { loading, data, error } = await addFood({
       variables: foodLogData.recordData,
-      refetchQueries : [{
-        query: GET_DOUGHNUT_DATA
-      }]
+      refetchQueries: [
+        {
+          query: GET_DOUGHNUT_DATA,
+        },
+      ],
     });
 
     if (error) return `Error: ${error}`;
@@ -124,10 +129,10 @@ export default function NutritionFacts({
       client.writeData({
         data: {
           ...data,
-          lowerNav: "journal",
+          lowerNav: 'journal',
           mealType: meal_type,
-          logType: "daily",
-          journalComponent: "log",
+          logType: 'daily',
+          journalComponent: 'log',
           // nutritionInfo: "",
           // searchResults: "",
         },
