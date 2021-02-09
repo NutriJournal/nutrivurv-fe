@@ -12,12 +12,9 @@ const FoodJournal = () => {
   //Gets active journal component from client cache
   const { data } = useQuery(GET_DASHNAV_STATE);
   const Router = useRouter();
+  const user = data ? data[0] : {};
 
   const journalComponent = data ? data.journalComponent : 'log'; // gets the label for the component to render
-
-  useEffect(() => {
-    data && !data.user.profile && Router.push('/createProfile');
-  }, [data]);
 
   return (
     <div>
