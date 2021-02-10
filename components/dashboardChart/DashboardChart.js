@@ -12,6 +12,7 @@ import { GET_OPEN_LOG_STATE, GET_DOUGHNUT_DATA, GET_FOODJOURNAL_LOGS } from "../
 import { totalUpPropertyValuesInArray, chunkArr } from "../../lib/utils";
 
 const DashboardChart = ({ records }) => {
+  console.log(records)
   const [currChunk, setCurrChunk] = useState(0);
 
   const [updateFoodString] = useMutation(UPDATE_FOOD_ITEM);
@@ -104,9 +105,8 @@ const DashboardChart = ({ records }) => {
       </div>
       {
         <span
-          className={`flex mt-40 ${
-            chunkedRecords.length <= 1 ? "hidden" : ""
-          } pb-6`}
+          className={`flex mt-40 ${chunkedRecords.length <= 1 ? "hidden" : ""
+            } pb-6`}
         >
           <Spacer />
           <button

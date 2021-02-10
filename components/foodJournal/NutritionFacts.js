@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 
 import { ADD_FOOD } from '../../gql/mutations';
-import { adjustIntValuesonAnObject } from '../../lib/utils';
+import { adjustIntValuesonAnObject, formatDate } from '../../lib/utils';
 import { GET_DOUGHNUT_DATA } from '../../gql/queries';
 import { useFetchUser } from '../../lib/Auth0/user';
 
@@ -33,13 +33,13 @@ export default function NutritionFacts({
   const foodLogData = {
     //Obj for storing the vales used in the nutrition graphic and the dailyRecord mutation
     recordData: {
-      date: new Date(Date.now()).toLocaleDateString().toString(),
+      date: formatDate(new Date(Date.now())),
       calories: Math.round(calories * qty) || 0,
       fat: Math.floor(fatQuantity * qty) || 0,
       carbs: Math.floor(carbsQuantity * qty) || 0,
       fiber: Math.floor(fiberQuantity * qty) || 0,
       protein: Math.floor(proteinQuantity * qty) || 0,
-      food_string: JSON.stringify(foodString),
+      food_string: JSON.stringify(JSON.stringify(foodString)),
       meal_type: meal_type,
       quantity: parseInt(enteredQty),
       user_id: user.sub,

@@ -26,7 +26,7 @@ export default function FoodLog() {
   //  Filter records for favorited items
   const favoritesRecords = (data) => {
     let newArr = [];
-    data.map((record) => {
+    data?.map((record) => {
       const favorite = JSON.parse(record.food_string).favorite;
       const edamamId = JSON.parse(record.food_string).food;
       const alreadyInRecords = newArr
@@ -44,45 +44,40 @@ export default function FoodLog() {
     <>
       <div className="flex text- font-medium py-2">
         <div
-          className={`${
-            mealType === "breakfast" ? "border-b-2 border-blue-400" : ""
-          } cursor-pointer mr-12`}
+          className={`${mealType === "breakfast" ? "border-b-2 border-blue-400" : ""
+            } cursor-pointer mr-12`}
           data-mealtype="breakfast"
           onClick={handleClick}
         >
           Breakfast
         </div>
         <div
-          className={`${
-            mealType === "lunch" ? "border-b-2 border-blue-400" : ""
-          } cursor-pointer mr-12`}
+          className={`${mealType === "lunch" ? "border-b-2 border-blue-400" : ""
+            } cursor-pointer mr-12`}
           data-mealtype="lunch"
           onClick={handleClick}
         >
           Lunch
         </div>
         <div
-          className={`${
-            mealType === "dinner" ? "border-b-2 border-blue-400" : ""
-          } cursor-pointer mr-12`}
+          className={`${mealType === "dinner" ? "border-b-2 border-blue-400" : ""
+            } cursor-pointer mr-12`}
           data-mealtype="dinner"
           onClick={handleClick}
         >
           Dinner
         </div>
         <div
-          className={`${
-            mealType === "snack" ? "border-b-2 border-blue-400" : ""
-          } cursor-pointer mr-12`}
+          className={`${mealType === "snack" ? "border-b-2 border-blue-400" : ""
+            } cursor-pointer mr-12`}
           data-mealtype="snack"
           onClick={handleClick}
         >
           Snack
         </div>
         <div
-          className={`${
-            mealType === "water" ? "border-b-2 border-blue-400" : ""
-          } cursor-pointer mr-12`}
+          className={`${mealType === "water" ? "border-b-2 border-blue-400" : ""
+            } cursor-pointer mr-12`}
           data-mealtype="water"
           onClick={handleClick}
         >

@@ -17,6 +17,7 @@ const Home = () => {
         lowerNav: "homePage",
       },
     });
+    return () => { }
   }, []);
 
   return (
