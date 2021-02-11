@@ -53,16 +53,13 @@ const DashboardChart = ({ records }) => {
   if (error) return `${error}`;
 
   const toggleFav = (item) => {
-    let parsedFood = JSON.parse(item.food_string);
-    const fav = parsedFood.favorite;
-    parsedFood = { ...parsedFood, favorite: !fav };
     updateFavStatus({
       variables: {
         id: item.id,
-        food_string: JSON.stringify(parsedFood),
+        favorite: !item.favorite,
       },
     });
-    const updateItem = { ...item, food_string: JSON.stringify(parsedFood) };
+    const updateItem = { ...item, favorite: !item.favorite };
     return updateItem;
   };
 

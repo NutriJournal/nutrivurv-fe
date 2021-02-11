@@ -259,12 +259,12 @@ export const UPDATE_FOOD_LOG_RECORD = gql`
 `;
 
 export const UPDATE_FAVORITE_STATUS = gql`
-  mutation UPDATE_FAVORITE_STATUS($id: uuid!, $food_string: String) {
+  mutation UPDATE_FAVORITE_STATUS($id: uuid!, $favorite: Boolean) {
     update_daily_record_by_pk(
       pk_columns: { id: $id }
-      _set: { food_string: $food_string }
+      _set: { favorite: $favorite }
     ) {
-      food_string
+      favorite
     }
   }
 `;
