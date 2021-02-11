@@ -280,6 +280,17 @@ export const UPDATE_FOOD_LOG_RECORD = gql`
   }
 `;
 
+export const UPDATE_FAVORITE_STATUS = gql`
+  mutation UPDATE_FAVORITE_STATUS($id: uuid!, $food_string: String) {
+    update_daily_record_by_pk(
+      pk_columns: { id: $id }
+      _set: { food_string: $food_string }
+    ) {
+      food_string
+    }
+  }
+`;
+
 export const UPDATE_COMMENT = gql`
   mutation UPDATE_COMMENT($id: String!, $body: String) {
     updateComment(id: $id, data: { body: $body }) {

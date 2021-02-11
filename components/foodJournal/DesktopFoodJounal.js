@@ -1,15 +1,13 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from '@apollo/react-hooks';
 
-import FoodLog from "./FoodLog";
-import PreviousLog from "./PreviousLog";
-import Favorites from "./Favorites.js";
-import WomanBubblesSVG from "../svg/WomanBubblesSVG";
-import { GET_LOG_TYPE_STATE } from "../../gql/queries";
+import FoodLog from './FoodLog';
+import WomanBubblesSVG from '../svg/WomanBubblesSVG';
+import { GET_LOG_TYPE_STATE } from '../../gql/queries';
 
 export default function DesktopFoodJournal() {
   const { data, client } = useQuery(GET_LOG_TYPE_STATE);
 
-  const logType = data ? data.logType : "daily";
+  const logType = data ? data.logType : 'daily';
 
   const handleClick = (e) => {
     const logType = e.target.dataset.logtype;
@@ -22,7 +20,7 @@ export default function DesktopFoodJournal() {
         <div className="flex text-lg font-medium py-2 mb-8">
           <div
             className={`${
-              logType === "daily" ? "border-b-4 border-blue-400" : ""
+              logType === 'daily' ? 'border-b-4 border-blue-400' : ''
             } cursor-pointer mr-12`}
             data-logtype="daily"
             onClick={handleClick}
@@ -31,7 +29,7 @@ export default function DesktopFoodJournal() {
           </div>
           <div
             className={`${
-              logType === "favorites" ? "border-b-4 border-blue-400" : ""
+              logType === 'favorites' ? 'border-b-4 border-blue-400' : ''
             } cursor-pointer mr-12`}
             data-logtype="favorites"
             onClick={handleClick}
@@ -40,7 +38,7 @@ export default function DesktopFoodJournal() {
           </div>
           <div
             className={`${
-              logType === "previous" ? "border-b-4 border-blue-400" : ""
+              logType === 'previous' ? 'border-b-4 border-blue-400' : ''
             } cursor-pointer mr-12`}
             data-logtype="previous"
             onClick={handleClick}
@@ -48,15 +46,7 @@ export default function DesktopFoodJournal() {
             Previous
           </div>
         </div>
-        {logType === "daily" ? (
-          <FoodLog />
-        ) : logType === "favorites" ? (
-          <Favorites />
-        ) : logType === "previous" ? (
-          <PreviousLog />
-        ) : (
-          "Error"
-        )}
+        <FoodLog logType={logType} />
       </div>
       <div className="pt-20">
         <WomanBubblesSVG />

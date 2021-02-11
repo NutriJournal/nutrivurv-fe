@@ -1,21 +1,24 @@
-import { useState } from "react";
-import DashboardChartItem from "./DashboardChartItem.js";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useState } from 'react';
+import DashboardChartItem from './DashboardChartItem.js';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 
 import {
   DELETE_FOOD_LOG_RECORD,
   ADD_FOOD,
-  UPDATE_FOOD_ITEM,
-} from "../../gql/mutations.js";
-import { Spacer } from "../Layout/LayoutPrimitives.js";
-import { GET_OPEN_LOG_STATE, GET_DOUGHNUT_DATA, GET_FOODJOURNAL_LOGS } from "../../gql/queries.js";
-import { totalUpPropertyValuesInArray, chunkArr } from "../../lib/utils";
+  UPDATE_FAVORITE_STATUS,
+} from '../../gql/mutations.js';
+import { Spacer } from '../Layout/LayoutPrimitives.js';
+import {
+  GET_OPEN_LOG_STATE,
+  GET_DOUGHNUT_DATA,
+  GET_FOODJOURNAL_LOGS,
+} from '../../gql/queries.js';
+import { totalUpPropertyValuesInArray, chunkArr } from '../../lib/utils';
 
 const DashboardChart = ({ records }) => {
-  console.log(records)
   const [currChunk, setCurrChunk] = useState(0);
 
-  const [updateFoodString] = useMutation(UPDATE_FOOD_ITEM);
+  const [updateFavStatus] = useMutation(UPDATE_FAVORITE_STATUS);
 
   const {
     loading,
@@ -35,25 +38,25 @@ const DashboardChart = ({ records }) => {
           query: GET_DOUGHNUT_DATA,
         },
         {
-          query: GET_FOODJOURNAL_LOGS
-        }
+          query: GET_FOODJOURNAL_LOGS,
+        },
       ],
     });
   }
 
   async function reLogFood(variables) {
     await addFood({ variables: variables });
-    client.writeData({ data: { ...data, logType: "daily" } });
+    client.writeData({ data: { ...data, logType: 'daily' } });
   }
 
-  if (loading) return "Loading ...";
+  if (loading) return 'Loading ...';
   if (error) return `${error}`;
 
   const toggleFav = (item) => {
     let parsedFood = JSON.parse(item.food_string);
     const fav = parsedFood.favorite;
     parsedFood = { ...parsedFood, favorite: !fav };
-    updateFoodString({
+    updateFavStatus({
       variables: {
         id: item.id,
         food_string: JSON.stringify(parsedFood),
@@ -67,9 +70,9 @@ const DashboardChart = ({ records }) => {
     (record) => record.meal_type === mealType
   );
 
-  const totalCalories = totalUpPropertyValuesInArray(activeRecords, "calories");
-  const isDailyRecord = logType === "daily";
-  const calorieLabel = isDailyRecord ? `${totalCalories} total calories` : "";
+  const totalCalories = totalUpPropertyValuesInArray(activeRecords, 'calories');
+  const isDailyRecord = logType === 'daily';
+  const calorieLabel = isDailyRecord ? `${totalCalories} total calories` : '';
 
   const chunkedRecords = chunkArr(activeRecords, 5);
 
@@ -105,8 +108,9 @@ const DashboardChart = ({ records }) => {
       </div>
       {
         <span
-          className={`flex mt-40 ${chunkedRecords.length <= 1 ? "hidden" : ""
-            } pb-6`}
+          className={`flex mt-40 ${
+            chunkedRecords.length <= 1 ? 'hidden' : ''
+          } pb-6`}
         >
           <Spacer />
           <button
