@@ -220,8 +220,8 @@ export const ADD_COMMENT = gql`
 `;
 
 export const DELETE_FOOD_LOG_RECORD = gql`
-  mutation DELETE_FOOD_LOG_RECORD($id: String!) {
-    deleteDailyRecord(id: $id) {
+  mutation DELETE_FOOD_LOG_RECORD($id: uuid!) {
+    delete_daily_record_by_pk(id: $id) {
       id
     }
   }

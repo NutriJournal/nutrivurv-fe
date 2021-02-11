@@ -39,7 +39,7 @@ export default function NutritionFacts({
       carbs: Math.floor(carbsQuantity * qty) || 0,
       fiber: Math.floor(fiberQuantity * qty) || 0,
       protein: Math.floor(proteinQuantity * qty) || 0,
-      food_string: JSON.stringify(JSON.stringify(foodString)),
+      food_string: JSON.stringify(foodString),
       meal_type: meal_type,
       quantity: parseInt(enteredQty),
       user_id: user.sub,
