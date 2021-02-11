@@ -4,7 +4,7 @@ import FullHeartSVG from '../svg/FullHeartSVG.js';
 import HeartOutlineSVG from '../svg/HeartOutlineSVG.js';
 import { CenteredContainer, Spacer } from '../Layout/LayoutPrimitives.js';
 import UpdateServingQtyInput from './UpdateServingQtyInput.js';
-import { formatDate } from '../../lib/utils.js';
+import { currentDate, formatDate } from '../../lib/utils.js';
 
 const DashboardChartItem = ({
   data,
@@ -21,7 +21,6 @@ const DashboardChartItem = ({
   const { quantity: baseQty, measure, food, favorite } = JSON.parse(
     food_string
   );
-  const currentDate = formatDate(new Date(Date.now()));
 
   return (
     <div className="w-full flex">
@@ -64,7 +63,7 @@ const DashboardChartItem = ({
               onClick={() =>
                 reLogFood({
                   ...item,
-                  date: currentDate,
+                  date: currentDate(),
                 })
               }
             >

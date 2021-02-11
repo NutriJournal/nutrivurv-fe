@@ -1,21 +1,19 @@
-import { useMutation, } from "@apollo/react-hooks";
-import { useRouter } from "next/router";
+import { useMutation } from '@apollo/react-hooks';
+import { useRouter } from 'next/router';
 
-import { CREATE_PROFILE, CREATE_WEIGHT_LOG } from "../../gql/mutations";
-import { formatDate } from "../../lib/utils";
-import { ME } from "../../gql/queries";
+import { CREATE_PROFILE, CREATE_WEIGHT_LOG } from '../../gql/mutations';
+import { currentDate } from '../../lib/utils';
+import { ME } from '../../gql/queries';
 
 export default function Macros({ user, setUser }) {
-
   const router = useRouter();
   const date = new Date(Date.now());
-  const currentDate = formatDate(date).split("-").reverse().join("-");
   // Fields needed createProfile mutation
   const variables = {
     age: parseInt(user.age) || 0,
     height: parseInt(user.height) || 0,
     gender:
-      user.gender === "true" ? true : user.gender === "false" ? false : null,
+      user.gender === 'true' ? true : user.gender === 'false' ? false : null,
     weight: user.weight || 0,
     goal_weight: user.goalWeight || 0,
     activity_level: user.activityLevel || 0,
@@ -23,7 +21,7 @@ export default function Macros({ user, setUser }) {
     carbs: user.carbs || 0,
     protein: user.protein || 0,
     calories: user.calories || 0,
-    diet: user.diet || ""
+    diet: user.diet || '',
   };
 
   function handleChange(e) {
@@ -31,39 +29,43 @@ export default function Macros({ user, setUser }) {
   }
 
   const [createProfile] = useMutation(CREATE_PROFILE);
-  const [createWieghtLog] = useMutation(CREATE_WEIGHT_LOG)
+  const [createWieghtLog] = useMutation(CREATE_WEIGHT_LOG);
 
   const handleSubmit = async () => {
     // createProfile
     const { loading, data: profileData, error } = await createProfile({
       variables: variables,
-      refetchQueries: [{
-        query: ME
-      }]
+      refetchQueries: [
+        {
+          query: ME,
+        },
+      ],
     });
 
-    if (error){
-      alert(`${error}`)
+    if (error) {
+      alert(`${error}`);
     }
 
     if (!loading && profileData) {
       // If success create a weightLog, so that the dashboard graph doesn't freak out once redirected
       const { loading, data } = await createWieghtLog({
         variables: {
-          date: currentDate,
-          current_weight: user.weight
+          date: currentDate(),
+          current_weight: user.weight,
         },
-        refetchQueries: [{
-          query: ME
-        }]
-      })
+        refetchQueries: [
+          {
+            query: ME,
+          },
+        ],
+      });
 
-      if (error){
-        alert(`${error}`)
+      if (error) {
+        alert(`${error}`);
       }
 
       if (!loading && data) {
-        router.push("/journal/[user]", `/journal/user`);
+        router.push('/journal/[user]', `/journal/user`);
       }
     }
   };

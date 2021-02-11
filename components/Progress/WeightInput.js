@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useState } from 'react';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 
 import {
   UPDATE_WEIGHT_LOG,
   CREATE_WEIGHT_LOG,
   UPDATE_PROFILE,
-} from "../../gql/mutations";
-import { GET_WEIGHT_LOGS } from "../../gql/queries";
-import { formatDate } from "../../lib/utils";
+} from '../../gql/mutations';
+import { GET_WEIGHT_LOGS } from '../../gql/queries';
+import { currentDate } from '../../lib/utils';
 
 export default function WeightInput() {
   const [weight, setWeight] = useState();
@@ -15,12 +15,12 @@ export default function WeightInput() {
   const [createWeightLog] = useMutation(CREATE_WEIGHT_LOG);
 
   // Could get rid of this mutation with a circular reference to the user in MyWeightLogs
-  const [updateProfileWeight] = useMutation(UPDATE_PROFILE);  
+  const [updateProfileWeight] = useMutation(UPDATE_PROFILE);
 
   const { data, loading, error, refetch } = useQuery(GET_WEIGHT_LOGS);
 
   if (error) return `${error}`;
-  if (loading) return "Loading ...";
+  if (loading) return 'Loading ...';
 
   const {
     myWeightLogs,
@@ -34,7 +34,7 @@ export default function WeightInput() {
   const lastWeightLogId = myWeightLogs[0].id;
   const lastWeightLogDate = myWeightLogs[0].date;
   const date = new Date(Date.now());
-  const currentDate = formatDate(date).split("-").reverse().join("-");
+  const today = currentDate;
 
   function updateDashWeight() {
     const { age, height } = profile;
@@ -45,10 +45,10 @@ export default function WeightInput() {
         height: height,
       },
       optimisticResponse: {
-        __typename: "Mutation",
+        __typename: 'Mutation',
         updateProfile: {
           id: profile.id,
-          __typename: "Profile",
+          __typename: 'Profile',
           weight: weight,
         },
       },
@@ -58,7 +58,7 @@ export default function WeightInput() {
   function createWeight() {
     createWeightLog({
       variables: {
-        date: currentDate,
+        date: today,
         current_weight: weight,
       },
     });
@@ -74,10 +74,10 @@ export default function WeightInput() {
         current_weight: weight,
       },
       optimisticResponse: {
-        __typename: "Mutation",
+        __typename: 'Mutation',
         updateWeightLog: {
           id: lastWeightLogId,
-          __typename: "WeightLog",
+          __typename: 'WeightLog',
           current_weight: weight,
         },
       },
@@ -86,7 +86,7 @@ export default function WeightInput() {
     setWeight(NaN);
   }
 
-  const hasRecordForToday = currentDate === lastWeightLogDate;
+  const hasRecordForToday = today === lastWeightLogDate;
 
   const handleSubmit = () => {
     hasRecordForToday
@@ -100,7 +100,7 @@ export default function WeightInput() {
         className="flex-1 pl-2"
         type="number"
         placeholder={`${
-          hasRecordForToday ? "Update Weight" : "Enter Today's Weight"
+          hasRecordForToday ? 'Update Weight' : "Enter Today's Weight"
         }`}
         name="dailyWeight"
         value={weight}
