@@ -4,9 +4,9 @@ import { useQuery } from '@apollo/react-hooks';
 import { GET_FOODJOURNAL_LOGS } from '../../gql/queries';
 
 import DashboardChart from '../dashboardChart/DashboardChart';
-import { currentRecords } from '../../lib/utils';
+import { currentRecords, previousRecords, favoriteFoods } from '../../lib/utils';
 
-export default function FoodLog() {
+export default function FoodLog({ logType }) {
   // We'll pull in the food data off the user, filter the items by the control selected, then pass that array to the chart component
   const { loading, error, data, refetch, client } = useQuery(
     GET_FOODJOURNAL_LOGS
@@ -22,6 +22,12 @@ export default function FoodLog() {
 
   const { mealType, daily_record } = data ? data : 'breakfast';
   console.log(daily_record)
+
+  const logFilter = {
+    "daily": currentRecords,
+    "previous": previousRecords,
+    "favorites": favoriteFoods
+  }
 
   const handleClick = (e) => {
     const mealType = e.target.dataset.mealtype;
@@ -72,7 +78,7 @@ export default function FoodLog() {
           Water
         </div>
       </div>
-      <DashboardChart records={currentRecords(daily_record)} />
+      <DashboardChart records={logFilter[logType](daily_record)} />
     </>
   );
 }

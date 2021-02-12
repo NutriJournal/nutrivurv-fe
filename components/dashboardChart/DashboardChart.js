@@ -9,7 +9,7 @@ import {
 } from "../../gql/mutations.js";
 import { Spacer } from "../Layout/LayoutPrimitives.js";
 import { GET_OPEN_LOG_STATE, GET_DOUGHNUT_DATA, GET_FOODJOURNAL_LOGS } from "../../gql/queries.js";
-import { totalUpPropertyValuesInArray, chunkArr } from "../../lib/utils";
+import { sumProperty, chunkArr } from "../../lib/utils";
 
 const DashboardChart = ({ records }) => {
   console.log(records)
@@ -67,7 +67,7 @@ const DashboardChart = ({ records }) => {
     (record) => record.meal_type === mealType
   );
 
-  const totalCalories = totalUpPropertyValuesInArray(activeRecords, "calories");
+  const totalCalories = sumProperty(activeRecords, "calories");
   const isDailyRecord = logType === "daily";
   const calorieLabel = isDailyRecord ? `${totalCalories} total calories` : "";
 

@@ -21,42 +21,31 @@ export default function DesktopFoodJournal() {
       <div className="flex flex-col w-7/12">
         <div className="flex text-lg font-medium py-2 mb-8">
           <div
-            className={`${
-              logType === "daily" ? "border-b-4 border-blue-400" : ""
-            } cursor-pointer mr-12`}
+            className={`${logType === "daily" ? "border-b-4 border-blue-400" : ""
+              } cursor-pointer mr-12`}
             data-logtype="daily"
             onClick={handleClick}
           >
             Daily Food Log
           </div>
           <div
-            className={`${
-              logType === "favorites" ? "border-b-4 border-blue-400" : ""
-            } cursor-pointer mr-12`}
+            className={`${logType === "favorites" ? "border-b-4 border-blue-400" : ""
+              } cursor-pointer mr-12`}
             data-logtype="favorites"
             onClick={handleClick}
           >
             Favorites
           </div>
           <div
-            className={`${
-              logType === "previous" ? "border-b-4 border-blue-400" : ""
-            } cursor-pointer mr-12`}
+            className={`${logType === "previous" ? "border-b-4 border-blue-400" : ""
+              } cursor-pointer mr-12`}
             data-logtype="previous"
             onClick={handleClick}
           >
             Previous
           </div>
         </div>
-        {logType === "daily" ? (
-          <FoodLog />
-        ) : logType === "favorites" ? (
-          <Favorites />
-        ) : logType === "previous" ? (
-          <PreviousLog />
-        ) : (
-          "Error"
-        )}
+        <FoodLog logType={logType} />
       </div>
       <div className="pt-20">
         <WomanBubblesSVG />
