@@ -6,13 +6,10 @@ import { GET_DASHNAV_STATE } from '../../gql/queries';
 import Layout from '../../components/Layout/index';
 import DesktopFoodJournal from '../../components/foodJournal/DesktopFoodJounal';
 import FoodSearchResults from '../../components/foodJournal/FoodSearchResults';
-import { useRouter } from 'next/router';
 
 const FoodJournal = () => {
   //Gets active journal component from client cache
   const { data } = useQuery(GET_DASHNAV_STATE);
-  const Router = useRouter();
-  const user = data ? data[0] : {};
 
   const journalComponent = data ? data.journalComponent : 'log'; // gets the label for the component to render
 
@@ -25,8 +22,8 @@ const FoodJournal = () => {
           ) : journalComponent === 'searchResults' ? (
             <FoodSearchResults />
           ) : (
-            'Error'
-          )}
+                'Error'
+              )}
         </div>
       </Layout>
     </div>
