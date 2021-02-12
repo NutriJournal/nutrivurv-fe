@@ -129,18 +129,16 @@ export const UPDATE_FOOD_ITEM = gql`
   ) {
     update_daily_record_by_pk(
       id: $id
-      data: {
-        date: $date
-        calories: $calories
-        fat: $fat
-        carbs: $carbs
-        fiber: $fiber
-        protein: $protein
-        food_string: $food_string
-        quantity: $quantity
-        meal_type: $meal_type
-        favorite: $favorite
-      }
+      date: $date
+      calories: $calories
+      fat: $fat
+      carbs: $carbs
+      fiber: $fiber
+      protein: $protein
+      food_string: $food_string
+      quantity: $quantity
+      meal_type: $meal_type
+      favorite: $favorite
     ) {
       id
       date
@@ -262,9 +260,9 @@ export const UPDATE_FAVORITE_STATUS = gql`
   mutation UPDATE_FAVORITE_STATUS($id: uuid!, $favorite: Boolean) {
     update_daily_record_by_pk(
       pk_columns: { id: $id }
-      _set: { favorite: $favorite }
+      _set: { favorite: favorite }
     ) {
-      favorite
+      id
     }
   }
 `;
