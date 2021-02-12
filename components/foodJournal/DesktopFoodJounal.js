@@ -1,8 +1,6 @@
 import { useQuery } from "@apollo/react-hooks";
 
 import FoodLog from "./FoodLog";
-import PreviousLog from "./PreviousLog";
-import Favorites from "./Favorites.js";
 import WomanBubblesSVG from "../svg/WomanBubblesSVG";
 import { GET_LOG_TYPE_STATE } from "../../gql/queries";
 

@@ -1,30 +1,5 @@
 import gql from 'graphql-tag';
 
-export const LOG_IN = `
-  mutation LogIn($email: String!, $password: String!) {
-    login(data: { email: $email, password: $password }) {
-      token
-      user {
-        id
-        name
-      }
-    }
-  }
-`;
-
-export const ADD_USER = gql`
-  mutation ADD_USER($name: String!, $email: String!, $password: String!) {
-    createUser(data: { name: $name, email: $email, password: $password }) {
-      token
-      user {
-        id
-        name
-        email
-      }
-    }
-  }
-`;
-
 export const CREATE_PROFILE = gql`
   mutation CREATE_PROFILE(
     $age: Int!
@@ -140,7 +115,7 @@ export const ADD_FOOD = gql`
 
 export const UPDATE_FOOD_ITEM = gql`
   mutation UPDATE_FOOD_ITEM(
-    $id: String!
+    $id: uuid!
     $date: String
     $calories: Int
     $fat: Int
@@ -150,8 +125,9 @@ export const UPDATE_FOOD_ITEM = gql`
     $food_string: String
     $quantity: Int
     $meal_type: String
+    $favorite: Boolean
   ) {
-    updateDailyRecord(
+    update_daily_record_by_pk(
       id: $id
       data: {
         date: $date
@@ -163,6 +139,7 @@ export const UPDATE_FOOD_ITEM = gql`
         food_string: $food_string
         quantity: $quantity
         meal_type: $meal_type
+        favorite: $favorite
       }
     ) {
       id
@@ -175,6 +152,7 @@ export const UPDATE_FOOD_ITEM = gql`
       food_string
       quantity
       meal_type
+      favorite
     }
   }
 `;
@@ -220,8 +198,8 @@ export const ADD_COMMENT = gql`
 `;
 
 export const DELETE_FOOD_LOG_RECORD = gql`
-  mutation DELETE_FOOD_LOG_RECORD($id: String!) {
-    deleteDailyRecord(id: $id) {
+  mutation DELETE_FOOD_LOG_RECORD($id: uuid!) {
+    delete_daily_record_by_pk(id: $id) {
       id
     }
   }
@@ -276,6 +254,17 @@ export const UPDATE_FOOD_LOG_RECORD = gql`
       food_string
       quantity
       meal_type
+    }
+  }
+`;
+
+export const UPDATE_FAVORITE_STATUS = gql`
+  mutation UPDATE_FAVORITE_STATUS($id: uuid!, $favorite: Boolean) {
+    update_daily_record_by_pk(
+      pk_columns: { id: $id }
+      _set: { favorite: $favorite }
+    ) {
+      favorite
     }
   }
 `;
