@@ -5,17 +5,16 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import {
   DELETE_FOOD_LOG_RECORD,
   ADD_FOOD,
-  UPDATE_FOOD_ITEM,
+  UPDATE_FAVORITE_STATUS,
 } from "../../gql/mutations.js";
 import { Spacer } from "../Layout/LayoutPrimitives.js";
 import { GET_OPEN_LOG_STATE, GET_DOUGHNUT_DATA, GET_FOODJOURNAL_LOGS } from "../../gql/queries.js";
 import { sumProperty, chunkArr } from "../../lib/utils";
 
 const DashboardChart = ({ records }) => {
-  console.log(records)
   const [currChunk, setCurrChunk] = useState(0);
 
-  const [updateFoodString] = useMutation(UPDATE_FOOD_ITEM);
+  const [updateFavStatus] = useMutation(UPDATE_FAVORITE_STATUS);
 
   const {
     loading,
@@ -50,17 +49,14 @@ const DashboardChart = ({ records }) => {
   if (error) return `${error}`;
 
   const toggleFav = (item) => {
-    let parsedFood = JSON.parse(item.food_string);
-    const fav = parsedFood.favorite;
-    parsedFood = { ...parsedFood, favorite: !fav };
-    updateFoodString({
+    updateFavStatus({
       variables: {
         id: item.id,
-        food_string: JSON.stringify(parsedFood),
+        favorite: !item.favorite,
       },
     });
-    const updateItem = { ...item, food_string: JSON.stringify(parsedFood) };
-    return updateItem;
+    const updatedItem = { ...item, favorite: !item.favorite };
+    return updatedItem;
   };
 
   const activeRecords = records.filter(
