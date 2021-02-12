@@ -21,7 +21,6 @@ export default function FoodLog({ logType }) {
   if (error) return `Error: ${error}`;
 
   const { mealType, daily_record } = data ? data : 'breakfast';
-  console.log(daily_record)
 
   const logFilter = {
     "daily": currentRecords,
