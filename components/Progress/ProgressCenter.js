@@ -1,7 +1,6 @@
-
 const ProgressCenter = (props) => {
-  const weight = props.data.myWeightLogs[0].current_weight;
-  const goal_weight = props.data.me.profile.goal_weight;
+  const weight = props?.data?.weight_log[0].current_weight;
+  const goal_weight = props?.data?.user[0].profile.goal_weight;
 
   // returns the absolute value (always positive)
   // difference between the two.

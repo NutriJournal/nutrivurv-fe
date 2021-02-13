@@ -1,10 +1,10 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from '@apollo/react-hooks';
 
-import SearchResultsCard from "./SearchResultCard";
-import { GET_SEARCH_RESULTS } from "../../gql/queries";
-import { useState } from "react";
-import { chunkArr } from "../../lib/utils";
-import { Spacer } from "../Layout/LayoutPrimitives";
+import SearchResultsCard from './SearchResultCard';
+import { GET_SEARCH_RESULTS } from '../../gql/queries';
+import { useState } from 'react';
+import { chunkArr } from '../../lib/utils';
+import { Spacer } from '../Layout/LayoutPrimitives';
 
 export default function FoodSearchList({ setNutrInfo }) {
   const [currChunk, setCurrChunk] = useState(0);
@@ -13,10 +13,10 @@ export default function FoodSearchList({ setNutrInfo }) {
   const chunkedResults = chunkArr(results, 5);
 
   const cardList = () => {
-    //  Some of the items from edamam have duplicate id's, 
+    //  Some of the items from edamam have duplicate id's,
     // keyOrder added to garauntee a unque value for the key
-    let keyOrder = 0; 
-    
+    let keyOrder = 0;
+
     return chunkedResults[currChunk].map((item) => {
       keyOrder++;
       return (
@@ -41,12 +41,12 @@ export default function FoodSearchList({ setNutrInfo }) {
           <p className="w-1/6 text-center">Meal Type</p>
         </div>
       ) : (
-        "No Results Found"
+        'No Results Found'
       )}
       {cardList()}
       {
         <span
-          className={`flex mt-8 ${chunkedResults.length <= 1 ? "hidden" : ""}`}
+          className={`flex mt-8 ${chunkedResults.length <= 1 ? 'hidden' : ''}`}
         >
           <Spacer />
           <button

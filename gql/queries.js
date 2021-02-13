@@ -247,10 +247,9 @@ export const GET_LAST_WEIGHT_LOG = gql`
 
 export const GET_WEIGHT_LOGS = gql`
   query getWeightLogs {
-    myWeightLogs(orderBy: date_DESC) {
-      date
+    weight_log(order_by: { created_at: desc }) {
       current_weight
-      id
+      date
     }
     user {
       id
@@ -258,10 +257,9 @@ export const GET_WEIGHT_LOGS = gql`
       profile {
         id
         age
-        weight
         height
-        gender
         goal_weight
+        gender
       }
     }
   }

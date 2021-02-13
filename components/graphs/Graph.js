@@ -1,23 +1,23 @@
-import React from "react";
-import { Line } from "react-chartjs-2";
+import React from 'react';
+import { Line } from 'react-chartjs-2';
 
 const Graph = (props) => {
   const formatDate = (date) => {
-    let month = date.split("-")[1];
-    let day = date.split("-")[2];
-    if (month.split("")[0] === 0) {
-      month = month.split("")[1];
+    let month = date.split('-')[1];
+    let day = date.split('-')[2];
+    if (month.split('')[0] === 0) {
+      month = month.split('')[1];
     }
 
-    if (day.split("")[0] === 0) {
-      day = day.split("")[1];
+    if (day.split('')[0] === 0) {
+      day = day.split('')[1];
     }
     return `${month}/${day}`;
   };
 
   const weightData = () => {
     let weightArr = [];
-    props.data.map((record) => {
+    props?.data?.map((record) => {
       weightArr.push(record.current_weight);
     });
     return weightArr;
@@ -25,7 +25,7 @@ const Graph = (props) => {
 
   const weightLabels = () => {
     let weightArr = [];
-    props.data.map((record) => {
+    props?.data?.map((record) => {
       weightArr.push(formatDate(record.date));
     });
     return weightArr;
@@ -41,7 +41,7 @@ const Graph = (props) => {
       {
         labels: weightObj.labels,
         data: weightObj.weights,
-        label: "Weight",
+        label: 'Weight',
       },
     ],
   };
@@ -55,7 +55,7 @@ const Graph = (props) => {
 
     title: {
       display: true,
-      text: "Your Progress",
+      text: 'Your Progress',
     },
 
     scales: {
@@ -68,7 +68,7 @@ const Graph = (props) => {
 
       xAxes: [
         {
-          type: "category",
+          type: 'category',
           labels: graphData.datasets[0].labels,
         },
       ],
@@ -78,12 +78,12 @@ const Graph = (props) => {
   return (
     <div className=" h-96">
       <Line data={graphData} options={graphOptions} width={400} />
-  <style jsx>{`
-    canvas.chartjs-render-monitor {
-      width: 100% !important;
-      height: 65vh !important;
-    }
-  `}</style>
+      <style jsx>{`
+        canvas.chartjs-render-monitor {
+          width: 100% !important;
+          height: 65vh !important;
+        }
+      `}</style>
     </div>
   );
 };
