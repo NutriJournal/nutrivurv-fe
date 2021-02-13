@@ -1,12 +1,12 @@
-import withApollo from "../../lib/apollo";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { useQuery } from "@apollo/react-hooks";
-import { GET_POST_DETAILS } from "../../gql/queries.js";
-import Layout from "../../components/Layout/index";
-import CommentCard from "../../components/forum/CommentCard.js";
-import Comment from "../../components/forum/Comment.js";
-import PostIcons from "../../components/forum/PostIcons";
+import withApollo from '../../lib/apollo';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { useQuery } from '@apollo/react-hooks';
+import { GET_POST_DETAILS } from '../../gql/queries.js';
+import Layout from '../../components/Layout/index';
+import CommentCard from '../../components/forum/CommentCard.js';
+import Comment from '../../components/forum/Comment.js';
+import PostIcons from '../../components/forum/PostIcons';
 
 const post = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ const post = () => {
   });
 
   if (loading) {
-    return "Loading...";
+    return 'Loading...';
   }
 
   if (error) {
@@ -31,21 +31,21 @@ const post = () => {
           <Link href="/forum/posts" replace>
             <button className="flex justify-start my-4">Back</button>
           </Link>
-          <h1 className="muli text-2xl">{data.post.title}</h1>
+          <h1 className="muli text-2xl">{data.post_by_pk.title}</h1>
 
           <div className="flex justify-between my-4">
-            <p>Posted by {data.post.user.name}</p>
+            <p>Posted by {data.post_by_pk.user.name}</p>
             <div className="flex justify-end w-1/2">
-              <PostIcons data={data.post} />
+              <PostIcons data={data.post_by_pk} />
             </div>
           </div>
 
-          <p>{data.post.body}</p>
+          <p>{data.post_by_pk.body}</p>
 
           <Comment data={data} refetch={refetch} />
 
           <div>
-            {data.post.comments.map((comment) => {
+            {data.post_by_pk.comments.map((comment) => {
               return (
                 <CommentCard key={comment.id} data={comment} me={data.me} />
               );
@@ -57,4 +57,4 @@ const post = () => {
   );
 };
 
-export default withApollo(post, {ssr:true});
+export default withApollo(post, { ssr: true });

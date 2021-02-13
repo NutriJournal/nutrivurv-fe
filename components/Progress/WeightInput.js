@@ -23,16 +23,16 @@ export default function WeightInput() {
   if (loading) return 'Loading ...';
 
   const {
-    myWeightLogs,
-    me: { profile },
+    weight_log,
+    user: { profile },
   } = data;
 
   const handleChange = (e) => {
     setWeight(e.target.valueAsNumber);
   };
 
-  const lastWeightLogId = myWeightLogs[0].id;
-  const lastWeightLogDate = myWeightLogs[0].date;
+  const lastWeightLogId = weight_log[0].id;
+  const lastWeightLogDate = weight_log[0].date;
   const date = new Date(Date.now());
   const today = currentDate;
 

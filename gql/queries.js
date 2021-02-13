@@ -247,10 +247,9 @@ export const GET_LAST_WEIGHT_LOG = gql`
 
 export const GET_WEIGHT_LOGS = gql`
   query getWeightLogs {
-    myWeightLogs(orderBy: date_DESC) {
-      date
+    weight_log(order_by: { created_at: desc }) {
       current_weight
-      id
+      date
     }
     user {
       id
@@ -258,10 +257,9 @@ export const GET_WEIGHT_LOGS = gql`
       profile {
         id
         age
-        weight
         height
-        gender
         goal_weight
+        gender
       }
     }
   }
@@ -269,28 +267,24 @@ export const GET_WEIGHT_LOGS = gql`
 
 export const GET_FORUM_TOPICS = gql`
   query getForumTopics {
-    posts {
+    post {
       body
       id
       comments {
         id
-        user_id
         body
+        user_id
       }
       user {
+        email
         id
         name
-        email
       }
-      viewCount
+      view_count
       title
-      createdAt
-      updatedAt
-      likeCount
-    }
-    user {
-      id
-      name
+      updated_at
+      created_at
+      like_count
     }
   }
 `;
@@ -318,8 +312,8 @@ export const GET_POST_COMMENTS = gql`
 `;
 
 export const GET_POST_DETAILS = gql`
-  query getPost($id: String!) {
-    post(id: $id) {
+  query getPost($id: uuid!) {
+    post_by_pk(id: $id) {
       id
       body
       title
@@ -336,8 +330,8 @@ export const GET_POST_DETAILS = gql`
         }
         body
       }
-      viewCount
-      likeCount
+      view_count
+      like_count
     }
     user {
       id

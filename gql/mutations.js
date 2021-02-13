@@ -176,12 +176,17 @@ export const UPDATE_WEIGHT_LOG = gql`
 `;
 
 export const ADD_POST = gql`
-  mutation ADD_POST($title: String!, $body: String!) {
-    createPost(data: { title: $title, body: $body }) {
-      id
-      body
-      title
+  mutation ADD_POST($title: String!, $body: String!, $user_id: String!) {
+    insert_post(objects: { body: $body, title: $title, user_id: $user_id }) {
+      returning {
+        id
+        user_id
+        body
+        created_at
+        like_count
+      }
     }
+    __typename
   }
 `;
 

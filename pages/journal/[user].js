@@ -5,7 +5,7 @@ import withApollo from '../../lib/apollo';
 import { GET_DASHNAV_STATE } from '../../gql/queries';
 import Layout from '../../components/Layout/index';
 import DesktopFoodJournal from '../../components/foodJournal/DesktopFoodJounal';
-import FoodSearchResults from '../../components/foodJournal/FoodSearchResults';
+import FoodSearchResults from '../../components/foodSearch/FoodSearchResults';
 import { useRouter } from 'next/router';
 
 const FoodJournal = () => {

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import { useMutation } from "@apollo/react-hooks";
-import { ADD_COMMENT } from "../../gql/mutations.js";
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/react-hooks';
+import { ADD_COMMENT } from '../../gql/mutations.js';
+import { useFetchUser } from '../../lib/Auth0/user.js';
 
 const AddComment = (props) => {
   // Holding the user's comment in state.
-  const [commentBody, setCommentBody] = useState("");
-  const postId = props.data.post.id;
+  const [commentBody, setCommentBody] = useState('');
+  const postId = props.data.post_by_pk.id;
+  const { user } = useFetchUser();
 
   const [addPostComment] = useMutation(ADD_COMMENT);
 
@@ -24,14 +26,14 @@ const AddComment = (props) => {
           body: commentBody,
         },
       });
-      setCommentBody("");
+      setCommentBody('');
       props.refetch();
     }
   };
 
   return (
     <div className="w-full my-8">
-      <p className="text-xs mb-2">Comment as {props.data.me.name}</p>
+      <p className="text-xs mb-2">Comment as {props.data.user.name}</p>
       <form onSubmit={handleSubmit}>
         <textarea
           rows="5"
