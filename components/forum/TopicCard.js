@@ -1,15 +1,18 @@
-import { useState } from "react";
-import MoreIconSVG from "../svg/MoreIconSVG.js";
-import { useRouter } from "next/router";
-import { useMutation } from "@apollo/react-hooks";
-import { UPDATE_VIEW_COUNT, UPDATE_LIKE_COUNT } from "../../gql/mutations";
-import Menu from "./Menu.js";
-import PostIcons from "./PostIcons.js";
+import { useState } from 'react';
+import MoreIconSVG from '../svg/MoreIconSVG.js';
+import { useRouter } from 'next/router';
+import { useMutation } from '@apollo/react-hooks';
+import { UPDATE_VIEW_COUNT, UPDATE_LIKE_COUNT } from '../../gql/mutations';
+import Menu from './Menu.js';
+import PostIcons from './PostIcons.js';
+import { useFetchUser } from '../../lib/Auth0/user.js';
 
 const TopicCard = (props) => {
+  console.log(props.data);
   const router = useRouter();
+  const { user } = useFetchUser();
   const [showMenu, setShowMenu] = useState(false);
-  const isOwnPost = props.data.user.id === props.user.id;
+  const isOwnPost = props.data.user.id === user.sub;
 
   /* Uncomment after fixing bug in the mutation 
     don't forget to uncomment the viewCount icon in PostIcons.js */
@@ -38,7 +41,7 @@ const TopicCard = (props) => {
     //     },
     //   },
     // });
-    router.push("/forum/[post]", `/forum/${props.data.id}`);
+    router.push('/forum/[post]', `/forum/${props.data.id}`);
   };
 
   return (
@@ -57,7 +60,7 @@ const TopicCard = (props) => {
         <div className="flex align-middle">
           <PostIcons data={props.data} />
           <div
-            className={`my-4 mx-2 w-1/4 ${isOwnPost ? "cursor-pointer" : ""}`}
+            className={`my-4 mx-2 w-1/4 ${isOwnPost ? 'cursor-pointer' : ''}`}
             onClick={isOwnPost ? toggleMenu : undefined}
           >
             {showMenu ? (
