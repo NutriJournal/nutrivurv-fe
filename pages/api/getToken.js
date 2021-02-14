@@ -5,7 +5,7 @@ export default async function session(req, res) {
     const data = await auth0.getSession(req);
     console.log(data);
     const authCreds = JSON.stringify(data);
-    res.send(authCreds);
+    // res.send(authCreds);
     res.status(200).end(authCreds);
   } catch (error) {
     console.error('in getToken', error);
