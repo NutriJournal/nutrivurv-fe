@@ -8,7 +8,6 @@ import PostIcons from './PostIcons.js';
 import { useFetchUser } from '../../lib/Auth0/user.js';
 
 const TopicCard = (props) => {
-  console.log(props.data);
   const router = useRouter();
   const { user } = useFetchUser();
   const [showMenu, setShowMenu] = useState(false);

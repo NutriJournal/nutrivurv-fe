@@ -17,7 +17,7 @@ const DailyVibe = () => {
         });
     } catch (error) {
       !abortController.signal.aborted &&
-        console.log(`There was a problem with yout request: ${error}`);
+        console.error(`There was a problem with yout request: ${error}`);
     }
 
     return () => abortController.abort();
